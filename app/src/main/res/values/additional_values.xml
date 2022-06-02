@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="firstValuePriceForKg">Стоимость товара (руб)</string>
+    <string name="secondValuePriceForKg">При весе (гр)</string>
+    <string name="desiredPriceForKg">Стоимость одного кг: </string>
+
+    <string name="firstValueKnowingPriceForKg">Покупаем (гр)</string>
+    <string name="secondValueKnowingPriceForKg">По цене (руб/кг)</string>
+    <string name="desiredKnowingPriceForKg">Стоимость продукта: </string>
+
+    <string name="firstValueCountForKg">На сумму (руб)</string>
+    <string name="secondValueCountForKg">По цене (руб/кг)</string>
+    <string name="desiredCountForKg">Можно купить: </string>
+
+    <string name="firstValuePriceDefiniteWeight">При стоимости (руб)</string>
+    <string name="secondValuePriceDefiniteWeight">Вычислить цену за гр</string>
+    <string name="desiredPriceDefiniteWeight">Цена составит: </string>
+
+    <string name="x">0</string>
+    <string name="y">0</string>
+</resources>

@@ -1,0 +1,80 @@
+package com.delirium.unitprice.calculate
+
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.PopupMenu
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.delirium.unitprice.R
+import com.delirium.unitprice.databinding.CalculateFragmentBinding
+
+class CalculateFragment : Fragment() {
+    private val calculatePresenter: CalculatePresenter by activityViewModels()
+    lateinit var bindingCalculate: CalculateFragmentBinding
+
+    private val availableOperations = listOf("Price for kg", "Knowing price for kg",
+            "Count for 1kg", "Price definite weight")
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        bindingCalculate = CalculateFragmentBinding.inflate(inflater, container, false)
+
+        bindingCalculate.firstValueText.text = "First"
+        bindingCalculate.secondValueText.text = "Second"
+        return bindingCalculate.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        calculatePresenter.attachView(this)
+        calculatePresenter.drawCurrentOperation()
+        bindingCalculate.popupMenu.setOnClickListener {
+            openMenuOperation(it)
+        }
+    }
+
+    fun drawView(operation: String) {
+        bindingCalculate.popupMenu.text = operation
+        when (operation) {
+            "Price for kg" -> {
+                bindingCalculate.firstValueText.text = getString(R.string.firstValuePriceForKg)
+                bindingCalculate.secondValueText.text = getString(R.string.secondValuePriceForKg)
+            }
+            "Knowing price for kg" -> {
+                bindingCalculate.firstValueText.text = getString(R.string.firstValueKnowingPriceForKg)
+                bindingCalculate.secondValueText.text = getString(R.string.secondValueKnowingPriceForKg)
+            }
+            "Count for 1kg" -> {
+                bindingCalculate.firstValueText.text = getString(R.string.firstValueCountForKg)
+                bindingCalculate.secondValueText.text = getString(R.string.secondValueCountForKg)
+            }
+            "Price definite weight" -> {
+                bindingCalculate.firstValueText.text = getString(R.string.firstValuePriceDefiniteWeight)
+                bindingCalculate.secondValueText.text = getString(R.string.secondValuePriceDefiniteWeight)
+            }
+        }
+    }
+
+    private fun openMenuOperation(viewForMenu: View?) {
+        val popMenu = PopupMenu(activity, viewForMenu)
+        for (item in availableOperations) {
+            popMenu.menu.add(item)
+        }
+        val menuInflater = popMenu.menuInflater
+        menuInflater.inflate(R.menu.pop_menu_source, popMenu.menu)
+        popMenu.show()
+
+        popMenu.setOnMenuItemClickListener { menuItem ->
+            calculatePresenter.switchOperation(menuItem.title.toString())
+            true
+        }
+    }
+}
