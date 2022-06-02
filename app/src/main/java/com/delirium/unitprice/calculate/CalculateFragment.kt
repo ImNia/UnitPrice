@@ -26,8 +26,6 @@ class CalculateFragment : Fragment() {
     ): View {
         bindingCalculate = CalculateFragmentBinding.inflate(inflater, container, false)
 
-        bindingCalculate.firstValueText.text = "First"
-        bindingCalculate.secondValueText.text = "Second"
         return bindingCalculate.root
     }
 
@@ -38,6 +36,17 @@ class CalculateFragment : Fragment() {
         calculatePresenter.drawCurrentOperation()
         bindingCalculate.popupMenu.setOnClickListener {
             openMenuOperation(it)
+        }
+
+        //TODO check that value is correct and exist
+        //TODO hide keyboard after calculate
+        bindingCalculate.buttonCalculate.setOnClickListener {
+            val xValue = bindingCalculate.xValue.text.toString().toDouble()
+            val yValue = bindingCalculate.yValue.text.toString().toDouble()
+            calculatePresenter.callCalculate(
+                bindingCalculate.popupMenu.text.toString(),
+                xValue, yValue
+            )
         }
     }
 

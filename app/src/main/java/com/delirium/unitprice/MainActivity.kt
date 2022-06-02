@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.delirium.unitprice.calculate.CalculateFragment
 import com.delirium.unitprice.databinding.ActivityMainBinding
+import com.delirium.unitprice.display.PreviousFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +16,11 @@ class MainActivity : AppCompatActivity() {
         val fragmentCalculate = CalculateFragment()
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentCalculate, fragmentCalculate)
+            .commit()
+
+        val fragmentDisplay = PreviousFragment()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragmentPrevious, fragmentDisplay)
             .commit()
     }
 }
