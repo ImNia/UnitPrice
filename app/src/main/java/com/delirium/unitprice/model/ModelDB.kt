@@ -7,7 +7,7 @@ import java.util.*
 
 class ModelDB(private val callback: CallbackDB) {
     private val configDB: RealmConfiguration = RealmConfiguration()
-    private val realmDB: Realm = Realm.getInstance(configDB.getConfigDB())
+    val realmDB: Realm = Realm.getInstance(configDB.getConfigDB())
 
     fun insertFinalValue(finalValue: FinalValue) {
         realmDB.beginTransaction()
@@ -33,25 +33,23 @@ class ModelDB(private val callback: CallbackDB) {
 
     private fun converterToDBObject(finalValue: FinalValue) : FinalValueDB {
         return FinalValueDB(
-            id = finalValue.id,
+            id = finalValue.id.toString(),
             xValue = finalValue.xValue,
             yValue = finalValue.yValue,
             additionValue = finalValue.additionValue,
             result = finalValue.result,
-            operation = finalValue.operation,
-            finalString = finalValue.finalString
+            operation = finalValue.operation
         )
     }
 
     private fun converterToObject(finalValueDB: FinalValueDB) : FinalValue {
         return FinalValue(
-            id = finalValueDB.id,
+            id = UUID.fromString(finalValueDB.id),
             xValue = finalValueDB.xValue,
             yValue = finalValueDB.yValue,
             additionValue = finalValueDB.additionValue,
             result = finalValueDB.result,
-            operation = finalValueDB.operation!!,
-            finalString = finalValueDB.finalString
+            operation = finalValueDB.operation
         )
     }
 }

@@ -20,6 +20,7 @@ class CalculateFragment : Fragment() {
     private val calculatePresenter: CalculatePresenter by activityViewModels()
     lateinit var bindingCalculate: CalculateFragmentBinding
 
+    //TODO in model (map??)
     private val availableOperations = listOf("Price for kg", "Knowing price for kg",
             "Count for 1kg", "Price definite weight")
 
@@ -74,37 +75,6 @@ class CalculateFragment : Fragment() {
                 bindingCalculate.secondValueText.text = getString(R.string.secondValuePriceDefiniteWeight)
             }
         }
-    }
-
-    fun sendFinalDataInPrevious(finalValue: FinalValue) {
-        finalValue.finalString = when (finalValue.operation) {
-            "Price for kg" -> {
-                getString(R.string.finalPriceForKg, finalValue.result.toString())
-            }
-            "Knowing price for kg" -> {
-                getString(R.string.finalKnowingPriceForKg,
-                    finalValue.result.toString(),
-                    finalValue.xValue.toString()
-                )
-            }
-            "Count for 1kg" -> {
-                getString(R.string.finalCountForKg,
-                    finalValue.finalString.toString(),
-                    finalValue.xValue.toString()
-                )
-            }
-            "Price definite weight" -> {
-                getString(R.string.finalPriceDefiniteWeight,
-                    "something",
-                    "something#2"
-                )
-            }
-            else -> {
-                "Error"
-            }
-        }
-
-        setFragmentResult("dataForDisplay", bundleOf("finalKey" to finalValue.finalString))
     }
 
     private fun openMenuOperation(viewForMenu: View?) {

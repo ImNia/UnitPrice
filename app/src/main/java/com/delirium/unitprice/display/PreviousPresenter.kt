@@ -14,6 +14,10 @@ class PreviousPresenter: ViewModel(), CallbackDB {
     fun initPresenter(viewPrevious: PreviousFragment) {
         this.viewPrevious = viewPrevious
         modelDB.getAllFinalValue()
+
+        modelDB.realmDB.addChangeListener {
+            modelDB.getAllFinalValue()
+        }
     }
 
     fun drawAllData() {

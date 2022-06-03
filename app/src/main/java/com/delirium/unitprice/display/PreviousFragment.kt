@@ -41,20 +41,16 @@ class PreviousFragment : Fragment() {
         previousAdapter = PreviousAdapter()
         recyclerView?.adapter = previousAdapter
 
-        setFragmentResultListener("dataForDisplay") { requestKey, bundle ->
-            val result = bundle.getString("finalKey")
-            Log.i("PREVIOUS_FRAGMENT", "${result}")
-            previousPresenter.checkDataInDB()
-        }
         previousPresenter.initPresenter(this)
     }
 
     fun drawCurrentData(dataForDrawing: List<FinalValue>) {
+        Log.i("PREVIOUS", "${dataForDrawing.firstOrNull()?.id}")
         previousAdapter.dataSet = addFinalValue(dataForDrawing)
         previousAdapter.notifyDataSetChanged()
     }
 
-    fun addFinalValue(receiveData: List<FinalValue>) : List<FinalValue> {
+    private fun addFinalValue(receiveData: List<FinalValue>) : List<FinalValue> {
         val fullData = mutableListOf<FinalValue>()
         for(item in receiveData) {
             item.finalString = when (item.operation) {

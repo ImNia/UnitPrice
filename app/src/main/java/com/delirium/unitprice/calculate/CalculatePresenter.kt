@@ -38,7 +38,7 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         val result = calculateValue(operation, firstValue, secondValue)
         Log.i("CALCULATE", "$result")
         val finalValue = FinalValue(
-            Random().nextInt(),
+            UUID.randomUUID(),
             firstValue.toLong(),
             secondValue.toLong(),
             null,
@@ -46,7 +46,6 @@ class CalculatePresenter : ViewModel(), CallbackDB {
             operation
         )
         modelDB.insertFinalValue(finalValue)
-        viewCalculate?.sendFinalDataInPrevious(finalValue)
     }
 
     private fun calculateValue(operation: String, firstValue: Double, secondValue: Double) : Double {
