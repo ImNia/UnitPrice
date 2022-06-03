@@ -20,4 +20,9 @@
     <string name="y">0</string>
 
     <string name="buttonCalculate">Вычислить</string>
+
+    <string name="finalPriceForKg">Стоимость одного кг %1$s рублей</string>
+    <string name="finalKnowingPriceForKg">Стоимость продукта %1$s рублей за %2$s грамма </string>
+    <string name="finalCountForKg">Можно купить %1$s за %2$s рублей</string>
+    <string name="finalPriceDefiniteWeight">При стоимости %1$s рублей за %2$s грамм цена …</string>
 </resources>

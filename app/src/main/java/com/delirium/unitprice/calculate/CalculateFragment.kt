@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.CalculateFragmentBinding
+import com.delirium.unitprice.model.FinalValue
 
 class CalculateFragment : Fragment() {
     private val calculatePresenter: CalculatePresenter by activityViewModels()
@@ -70,6 +74,37 @@ class CalculateFragment : Fragment() {
                 bindingCalculate.secondValueText.text = getString(R.string.secondValuePriceDefiniteWeight)
             }
         }
+    }
+
+    fun sendFinalDataInPrevious(finalValue: FinalValue) {
+        finalValue.finalString = when (finalValue.operation) {
+            "Price for kg" -> {
+                getString(R.string.finalPriceForKg, finalValue.result.toString())
+            }
+            "Knowing price for kg" -> {
+                getString(R.string.finalKnowingPriceForKg,
+                    finalValue.result.toString(),
+                    finalValue.xValue.toString()
+                )
+            }
+            "Count for 1kg" -> {
+                getString(R.string.finalCountForKg,
+                    finalValue.finalString.toString(),
+                    finalValue.xValue.toString()
+                )
+            }
+            "Price definite weight" -> {
+                getString(R.string.finalPriceDefiniteWeight,
+                    "something",
+                    "something#2"
+                )
+            }
+            else -> {
+                "Error"
+            }
+        }
+
+        setFragmentResult("dataForDisplay", bundleOf("finalKey" to finalValue.finalString))
     }
 
     private fun openMenuOperation(viewForMenu: View?) {

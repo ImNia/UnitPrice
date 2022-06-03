@@ -1,8 +1,11 @@
 package com.delirium.unitprice.model
 
 data class FinalValue(
-    val xValue: Long,
-    val yValue: Long,
+    val id: Int?,
+    val xValue: Long?,
+    val yValue: Long?,
     val additionValue: Long? = null,
-    val result: Long?
+    val result: Long?,
+    val operation: String,
+    var finalString: String? = "NULL"
 )

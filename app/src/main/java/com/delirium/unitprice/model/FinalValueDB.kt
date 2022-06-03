@@ -1,0 +1,13 @@
+package com.delirium.unitprice.model
+
+import io.realm.RealmObject
+
+open class FinalValueDB(
+    var id: Int? = null,
+    var xValue: Long? = null,
+    var yValue: Long? = null,
+    var additionValue: Long? = null,
+    var result: Long? = null,
+    var operation: String? = null,
+    var finalString: String? = "NULL"
+) : RealmObject()

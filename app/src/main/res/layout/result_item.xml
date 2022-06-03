@@ -8,11 +8,12 @@
 
     <TextView
         android:id="@+id/resultValue"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintWidth_percent="0.7"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/finalPriceForKg"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@ class PreviousAdapter()
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(currentValue: FinalValue) {
-            binding.resultValue.text = currentValue.result.toString()
+            binding.resultValue.text = currentValue.finalString
         }
     }
 
