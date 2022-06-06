@@ -29,7 +29,7 @@ class PreviousFragment : Fragment() {
         bindingDisplay = PreviousResultsFragmentBinding.inflate(inflater, container, false)
 
         linearManager = LinearLayoutManager(activity)
-        recyclerView = bindingDisplay.recyclerNewsList
+        recyclerView = bindingDisplay.recyclerPreviousResult
         recyclerView?.layoutManager = linearManager
         return bindingDisplay.root
     }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/previousPrice">
+
+    <fragment
+        android:id="@+id/previousPrice"
+        android:name="com.delirium.unitprice.previous.PreviousFragment"
+        android:label="Titile"
+        tools:layout="@layout/previous_results_fragment" >
+        <action
+            android:id="@+id/action_filmsFragment_to_FilmDescription"
+            app:destination="@id/newsCalculation" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsCalculation"
+        android:name="com.delirium.unitprice.calculate.CalculateFragment"
+        android:label="TitileCalculate"
+        tools:layout="@layout/calculate_fragment" >
+    </fragment>
+</navigation>
