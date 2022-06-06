@@ -2,6 +2,7 @@ package com.delirium.unitprice.calculate
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.delirium.unitprice.AvailableOperations
 import com.delirium.unitprice.CallbackDB
 import com.delirium.unitprice.R
 import com.delirium.unitprice.model.FinalValue
@@ -17,49 +18,63 @@ class CalculatePresenter : ViewModel(), CallbackDB {
 
     fun attachView(viewCalculate: CalculateFragment) {
         this.viewCalculate = viewCalculate
+        prepareAndDrawView()
     }
 
     fun detachView() {
         viewCalculate = null
     }
 
-    fun drawCurrentOperation(operation: String? = null) {
-        //TODO changed to main value
-        viewCalculate?.drawView(operation ?: "Price for kg")
+    private fun prepareAndDrawView(operation: String? = null) {
+        val allOperation = modelDB.getOperations()
+        viewCalculate?.drawView(operation ?: allOperation.values.first())
+    }
+
+    fun getOperations() : List<String> {
+        val operations = modelDB.getOperations()
+        return operations.values.toList()
+    }
+
+    private fun getMapOperations() : Map<AvailableOperations, String> {
+        return modelDB.getOperations()
     }
 
     fun switchOperation(operation: String) {
         currentOperation = operation
-        drawCurrentOperation(operation)
+        prepareAndDrawView(operation)
     }
 
     //TODO all value in one array
-    fun callCalculate(operation: String, firstValue: Double, secondValue: Double) {
-        val result = calculateValue(operation, firstValue, secondValue)
-        Log.i("CALCULATE", "$result")
-        val finalValue = FinalValue(
-            UUID.randomUUID(),
-            firstValue.toLong(),
-            secondValue.toLong(),
-            null,
-            result.toLong(),
-            operation
-        )
-        modelDB.insertFinalValue(finalValue)
+    fun callCalculate(operation: String, firstValue: String?, secondValue: String?) {
+        if (firstValue.isNullOrEmpty() || secondValue.isNullOrEmpty()) {
+            viewCalculate?.snackBarWithError()
+        } else {
+            val result = calculateValue(operation, firstValue.toDouble(), secondValue.toDouble())
+            val finalValue = FinalValue(
+                UUID.randomUUID(),
+                firstValue.toLong(),
+                secondValue.toLong(),
+                null,
+                result.toLong(),
+                operation
+            )
+            modelDB.insertFinalValue(finalValue)
+        }
     }
 
     private fun calculateValue(operation: String, firstValue: Double, secondValue: Double) : Double {
+        val operations = getMapOperations()
         return when (operation) {
-            "Price for kg" -> {
+             operations[AvailableOperations.PRICE_FOR_KG] -> {
                 1000 / secondValue * firstValue
             }
-            "Knowing price for kg" -> {
+            operations[AvailableOperations.KNOWING_PRICE_FOR_KG] -> {
                 secondValue / 1000 * firstValue
             }
-            "Count for 1kg" -> {
+            operations[AvailableOperations.COUNT_FOR_1_KG] -> {
                 1000 / secondValue * firstValue
             }
-            "Price definite weight" -> {
+            operations[AvailableOperations.PRICE_DEFINITE_WEIGHT] -> {
                 //TODO need third value in view
                 0.0
             }
@@ -69,6 +84,7 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         }
     }
 
+    /*** Handle callback from model ***/
     override fun successful() {
         //TODO("Not yet implemented")
     }

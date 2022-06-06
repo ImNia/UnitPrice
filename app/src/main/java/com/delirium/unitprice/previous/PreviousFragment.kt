@@ -1,4 +1,4 @@
-package com.delirium.unitprice.display
+package com.delirium.unitprice.previous
 
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.delirium.unitprice.R
@@ -45,7 +44,6 @@ class PreviousFragment : Fragment() {
     }
 
     fun drawCurrentData(dataForDrawing: List<FinalValue>) {
-        Log.i("PREVIOUS", "${dataForDrawing.firstOrNull()?.id}")
         previousAdapter.dataSet = addFinalValue(dataForDrawing)
         previousAdapter.notifyDataSetChanged()
     }

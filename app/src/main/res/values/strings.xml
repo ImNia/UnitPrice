@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UnitPrice</string>
+    <string name="not_filled_error">Не все поля заполненые</string>
+    <string name="ok_error">ОК</string>
 </resources>

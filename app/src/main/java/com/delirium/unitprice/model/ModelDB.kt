@@ -1,11 +1,19 @@
 package com.delirium.unitprice.model
 
+import com.delirium.unitprice.AvailableOperations
 import com.delirium.unitprice.CallbackDB
 import com.delirium.unitprice.RealmConfiguration
 import io.realm.Realm
 import java.util.*
 
 class ModelDB(private val callback: CallbackDB) {
+    private val availableOperations = mapOf(
+        AvailableOperations.PRICE_FOR_KG to "Price for kg",
+        AvailableOperations.KNOWING_PRICE_FOR_KG to "Knowing price for kg",
+        AvailableOperations.COUNT_FOR_1_KG to "Count for 1kg",
+        AvailableOperations.PRICE_DEFINITE_WEIGHT to "Price definite weight"
+    )
+
     private val configDB: RealmConfiguration = RealmConfiguration()
     val realmDB: Realm = Realm.getInstance(configDB.getConfigDB())
 
@@ -51,5 +59,10 @@ class ModelDB(private val callback: CallbackDB) {
             result = finalValueDB.result,
             operation = finalValueDB.operation
         )
+    }
+
+    /*** Standard operation ***/
+    fun getOperations() : Map<AvailableOperations, String> {
+        return availableOperations
     }
 }

@@ -1,4 +1,4 @@
-package com.delirium.unitprice.display
+package com.delirium.unitprice.previous
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

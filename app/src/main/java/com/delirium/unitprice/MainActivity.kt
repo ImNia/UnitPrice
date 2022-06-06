@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.delirium.unitprice.calculate.CalculateFragment
 import com.delirium.unitprice.databinding.ActivityMainBinding
-import com.delirium.unitprice.display.PreviousFragment
+import com.delirium.unitprice.previous.PreviousFragment
 import io.realm.Realm
 
 class MainActivity : AppCompatActivity() {

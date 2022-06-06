@@ -1,4 +1,4 @@
-package com.delirium.unitprice.display
+package com.delirium.unitprice.previous
 
 import androidx.lifecycle.ViewModel
 import com.delirium.unitprice.CallbackDB
@@ -27,6 +27,8 @@ class PreviousPresenter: ViewModel(), CallbackDB {
     fun checkDataInDB() {
         modelDB.getAllFinalValue()
     }
+
+    /*** Handle callback from model ***/
 
     override fun successful() {
         TODO("Not yet implemented")
