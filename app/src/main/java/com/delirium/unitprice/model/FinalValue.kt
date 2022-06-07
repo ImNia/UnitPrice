@@ -9,5 +9,6 @@ data class FinalValue(
     val additionValue: Long? = null,
     val result: Long?,
     val operation: String?,
-    var finalString: String? = null
+    var finalString: String? = null,
+    var name: String?
 )

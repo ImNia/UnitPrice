@@ -3,6 +3,7 @@ package com.delirium.unitprice.previous
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.ResultItemBinding
 import com.delirium.unitprice.model.FinalValue
 
@@ -15,7 +16,10 @@ class PreviousAdapter()
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(currentValue: FinalValue) {
+            binding.nameInCard.text = "Будет название"
             binding.resultValue.text = currentValue.finalString
+            binding.dataCreateResult.text = "01.01.1010"
+            binding.deleteIndicator.setImageResource(R.drawable.ic_delete_black_24dp)
         }
     }
 

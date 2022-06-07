@@ -7,17 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.PopupMenu
-import android.widget.ProgressBar
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.findNavController
 import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.CalculateFragmentBinding
-import com.delirium.unitprice.model.FinalValue
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
 class CalculateFragment : Fragment() {
@@ -33,6 +29,11 @@ class CalculateFragment : Fragment() {
     ): View {
         bindingCalculate = CalculateFragmentBinding.inflate(inflater, container, false)
 
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.buttonAppBar)
+        fab?.hide()
+
+        bindingCalculate.nameInCalculate.visibility = View.INVISIBLE
+        bindingCalculate.buttonSave.visibility = View.INVISIBLE
         return bindingCalculate.root
     }
 
@@ -47,14 +48,28 @@ class CalculateFragment : Fragment() {
         bindingCalculate.buttonCalculate.setOnClickListener {
             val xValue = bindingCalculate.xValue.text.toString()
             val yValue = bindingCalculate.yValue.text.toString()
+            val zValue = bindingCalculate.zValue.text.toString()
             calculatePresenter.callCalculate(
                 bindingCalculate.popupMenu.text.toString(),
-                xValue, yValue
+                xValue, yValue, zValue
             )
             activity?.currentFocus?.let {
                 val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 imm?.hideSoftInputFromWindow(view.windowToken, 0)
             }
+        }
+
+        bindingCalculate.buttonSave.setOnClickListener {
+            calculatePresenter.saveResult(
+                bindingCalculate.popupMenu.text.toString(),
+                bindingCalculate.resultValueInCalculate.text.toString(),
+                bindingCalculate.xValue.text.toString(),
+                bindingCalculate.yValue.text.toString(),
+                bindingCalculate.nameInCalculate.text.toString()
+            )
+            bindingCalculate.root.findNavController().navigate(
+                R.id.action_newCalculation_to_previousPrice
+            )
         }
     }
 
@@ -64,20 +79,61 @@ class CalculateFragment : Fragment() {
             "Price for kg" -> {
                 bindingCalculate.firstValueText.text = getString(R.string.firstValuePriceForKg)
                 bindingCalculate.secondValueText.text = getString(R.string.secondValuePriceForKg)
+                bindingCalculate.thirdValueText.visibility = View.INVISIBLE
+                bindingCalculate.zValue.visibility = View.INVISIBLE
             }
             "Knowing price for kg" -> {
                 bindingCalculate.firstValueText.text = getString(R.string.firstValueKnowingPriceForKg)
                 bindingCalculate.secondValueText.text = getString(R.string.secondValueKnowingPriceForKg)
+                bindingCalculate.thirdValueText.visibility = View.INVISIBLE
+                bindingCalculate.zValue.visibility = View.INVISIBLE
             }
             "Count for 1kg" -> {
                 bindingCalculate.firstValueText.text = getString(R.string.firstValueCountForKg)
                 bindingCalculate.secondValueText.text = getString(R.string.secondValueCountForKg)
+                bindingCalculate.thirdValueText.visibility = View.INVISIBLE
+                bindingCalculate.zValue.visibility = View.INVISIBLE
             }
             "Price definite weight" -> {
                 bindingCalculate.firstValueText.text = getString(R.string.firstValuePriceDefiniteWeight)
-                bindingCalculate.secondValueText.text = getString(R.string.secondValuePriceDefiniteWeight)
+                bindingCalculate.secondValueText.text = getString(R.string.thirdValuePriceDefiniteWeight)
+                bindingCalculate.thirdValueText.visibility = View.VISIBLE
+                bindingCalculate.zValue.visibility = View.VISIBLE
+                bindingCalculate.thirdValueText.text = getString(R.string.secondValuePriceDefiniteWeight)
             }
         }
+    }
+
+    fun drawResultCalculate(result: String, operation: String) {
+        val resultString = when (operation) {
+            "Price for kg" -> {
+                getString(R.string.finalPriceForKg, result)
+            }
+            "Knowing price for kg" -> {
+                getString(R.string.finalKnowingPriceForKg, result,
+                    bindingCalculate.xValue.text.toString()
+                )
+            }
+            "Count for 1kg" -> {
+                getString(R.string.finalCountForKg, result,
+                    bindingCalculate.xValue.text.toString()
+                )
+            }
+            "Price definite weight" -> {
+                getString(R.string.finalPriceDefiniteWeight,
+                    bindingCalculate.xValue.text.toString(),
+                    bindingCalculate.yValue.text.toString(),
+                    bindingCalculate.zValue.text.toString(),
+                    result
+                )
+            }
+            else -> {
+                "Problem"
+            }
+        }
+        bindingCalculate.resultValueInCalculate.text = resultString
+        bindingCalculate.nameInCalculate.visibility = View.VISIBLE
+        bindingCalculate.buttonSave.visibility = View.VISIBLE
     }
 
     private fun openMenuOperation(viewForMenu: View?) {

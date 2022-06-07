@@ -2,10 +2,12 @@ package com.delirium.unitprice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupWithNavController
 import com.delirium.unitprice.calculate.CalculateFragment
 import com.delirium.unitprice.databinding.ActivityMainBinding
 import com.delirium.unitprice.previous.PreviousFragment
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDatabase()
+        supportActionBar?.hide()
 
         val bindingMain = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingMain.root)
@@ -27,6 +30,20 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
         appBarNavController = AppBarConfiguration(navController.graph)
+
+        bindingMain.toolBar.setupWithNavController(navController, appBarNavController)
+        bindingMain.toolBar.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                else -> {
+                    Log.i("MAIN", "PROBLEM in App Bar")
+                    false
+                }
+            }
+        }
+
+        bindingMain.buttonAppBar.setOnClickListener {
+            navController.navigate(R.id.newCalculation)
+        }
     }
 
     private fun initDatabase() {

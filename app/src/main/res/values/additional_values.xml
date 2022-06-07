@@ -12,17 +12,19 @@
     <string name="secondValueCountForKg">По цене (руб/кг)</string>
     <string name="desiredCountForKg">Можно купить: </string>
 
-    <string name="firstValuePriceDefiniteWeight">При стоимости (руб)</string>
+    <string name="firstValuePriceDefiniteWeight">Товар стоит (руб)</string>
+    <string name="thirdValuePriceDefiniteWeight">за грамм: </string>
     <string name="secondValuePriceDefiniteWeight">Вычислить цену за гр</string>
     <string name="desiredPriceDefiniteWeight">Цена составит: </string>
 
     <string name="x">0</string>
     <string name="y">0</string>
+    <string name="z">0</string>
 
     <string name="buttonCalculate">Вычислить</string>
 
     <string name="finalPriceForKg">Стоимость одного кг %1$s рублей</string>
     <string name="finalKnowingPriceForKg">Стоимость продукта %1$s рублей за %2$s грамма </string>
     <string name="finalCountForKg">Можно купить %1$s за %2$s рублей</string>
-    <string name="finalPriceDefiniteWeight">При стоимости %1$s рублей за %2$s грамм цена …</string>
+    <string name="finalPriceDefiniteWeight">При стоимости %1$s рублей за %2$s грамм цена за %3$s грамм составит %4$s рублей</string>
 </resources>

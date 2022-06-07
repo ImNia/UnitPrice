@@ -46,7 +46,9 @@ class ModelDB(private val callback: CallbackDB) {
             yValue = finalValue.yValue,
             additionValue = finalValue.additionValue,
             result = finalValue.result,
-            operation = finalValue.operation
+            operation = finalValue.operation,
+            finalString = finalValue.finalString,
+            name = finalValue.name
         )
     }
 
@@ -57,7 +59,9 @@ class ModelDB(private val callback: CallbackDB) {
             yValue = finalValueDB.yValue,
             additionValue = finalValueDB.additionValue,
             result = finalValueDB.result,
-            operation = finalValueDB.operation
+            operation = finalValueDB.operation,
+            finalString = finalValueDB.finalString,
+            name = finalValueDB.name
         )
     }
 

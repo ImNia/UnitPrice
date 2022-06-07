@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.PreviousResultsFragmentBinding
 import com.delirium.unitprice.model.FinalValue
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PreviousFragment : Fragment() {
     private val previousPresenter: PreviousPresenter by activityViewModels()
@@ -39,8 +40,10 @@ class PreviousFragment : Fragment() {
 
         previousAdapter = PreviousAdapter()
         recyclerView?.adapter = previousAdapter
-
         previousPresenter.initPresenter(this)
+
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.buttonAppBar)
+        fab?.show()
     }
 
     fun drawCurrentData(dataForDrawing: List<FinalValue>) {
@@ -51,35 +54,6 @@ class PreviousFragment : Fragment() {
     private fun addFinalValue(receiveData: List<FinalValue>) : List<FinalValue> {
         val fullData = mutableListOf<FinalValue>()
         for(item in receiveData) {
-            item.finalString = when (item.operation) {
-                "Price for kg" -> {
-                    getString(R.string.finalPriceForKg, item.result.toString())
-                }
-                "Knowing price for kg" -> {
-                    getString(
-                        R.string.finalKnowingPriceForKg,
-                        item.result.toString(),
-                        item.xValue.toString()
-                    )
-                }
-                "Count for 1kg" -> {
-                    getString(
-                        R.string.finalCountForKg,
-                        item.finalString.toString(),
-                        item.xValue.toString()
-                    )
-                }
-                "Price definite weight" -> {
-                    getString(
-                        R.string.finalPriceDefiniteWeight,
-                        "something",
-                        "something#2"
-                    )
-                }
-                else -> {
-                    "Error"
-                }
-            }
             fullData.add(item)
         }
         return fullData.toList()

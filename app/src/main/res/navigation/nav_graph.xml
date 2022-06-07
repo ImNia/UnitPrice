@@ -11,14 +11,13 @@
         android:name="com.delirium.unitprice.previous.PreviousFragment"
         android:label="Titile"
         tools:layout="@layout/previous_results_fragment" >
-        <action
-            android:id="@+id/action_filmsFragment_to_FilmDescription"
-            app:destination="@id/newsCalculation" />
     </fragment>
     <fragment
-        android:id="@+id/newsCalculation"
+        android:id="@+id/newCalculation"
         android:name="com.delirium.unitprice.calculate.CalculateFragment"
-        android:label="TitileCalculate"
         tools:layout="@layout/calculate_fragment" >
+        <action
+            android:id="@+id/action_newCalculation_to_previousPrice"
+            app:destination="@id/previousPrice" />
     </fragment>
 </navigation>

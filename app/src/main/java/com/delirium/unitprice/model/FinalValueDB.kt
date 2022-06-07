@@ -8,5 +8,7 @@ open class FinalValueDB(
     var yValue: Long? = null,
     var additionValue: Long? = null,
     var result: Long? = null,
-    var operation: String? = null
+    var operation: String? = null,
+    var finalString: String? = null,
+    var name: String? = null
 ) : RealmObject()

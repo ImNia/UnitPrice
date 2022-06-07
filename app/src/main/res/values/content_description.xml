@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_button">Кнопка добавления нового значения</string>
+    <string name="content_description_delete">Удалить</string>
+</resources>
