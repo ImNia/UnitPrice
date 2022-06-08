@@ -1,10 +1,8 @@
 package com.delirium.unitprice.calculate
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.delirium.unitprice.AvailableOperations
 import com.delirium.unitprice.CallbackDB
-import com.delirium.unitprice.R
 import com.delirium.unitprice.model.FinalValue
 import com.delirium.unitprice.model.ModelDB
 import java.util.*
@@ -30,8 +28,8 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         viewCalculate?.drawView(operation ?: allOperation.values.first())
     }
 
-    private fun drawResultValue(result: Double, operation: String) {
-        viewCalculate?.drawResultCalculate(result.toString(), operation)
+    private fun drawResultValue(result: String, operation: String) {
+        viewCalculate?.drawResultCalculate(result, operation)
     }
 
     fun switchOperation(operation: String) {
@@ -45,7 +43,7 @@ class CalculatePresenter : ViewModel(), CallbackDB {
             viewCalculate?.snackBarWithError()
         } else {
             val result = calculateValue(operation, terms)
-            drawResultValue(result, operation)
+            drawResultValue(String.format("%.2f", result), operation)
         }
     }
 
@@ -53,13 +51,13 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         val operations = getMapOperations()
         return when (operation) {
              operations[AvailableOperations.PRICE_FOR_KG] -> {
-                1000 / terms[0].toDouble() * terms[1].toDouble()
+                1000 / terms[1].toDouble() * terms[0].toDouble()
             }
             operations[AvailableOperations.KNOWING_PRICE_FOR_KG] -> {
                 terms[1].toDouble() / 1000 * terms[0].toDouble()
             }
             operations[AvailableOperations.COUNT_FOR_1_KG] -> {
-                1000 / terms[0].toDouble() * terms[1].toDouble()
+                1000 / terms[1].toDouble() * terms[0].toDouble()
             }
             operations[AvailableOperations.PRICE_DEFINITE_WEIGHT] -> {
                 terms[0].toDouble() / terms[1].toDouble() * terms[2].toDouble()
@@ -87,7 +85,8 @@ class CalculatePresenter : ViewModel(), CallbackDB {
             null,
             operation,
             result,
-            name
+            name,
+            Calendar.getInstance().time
         )
         modelDB.insertFinalValue(finalValue)
     }

@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/light_peach"
+    >
 
     <TextView
         android:id="@+id/popupMenu"
@@ -116,6 +118,7 @@
             android:gravity="center"
             android:hint="@string/hintNameEdit"
             android:inputType="text"
+            android:background="@color/light_peach"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"

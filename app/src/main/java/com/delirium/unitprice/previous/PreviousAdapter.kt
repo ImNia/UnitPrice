@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.ResultItemBinding
 import com.delirium.unitprice.model.FinalValue
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PreviousAdapter()
     : RecyclerView.Adapter<PreviousAdapter.ViewHolder>() {
@@ -16,9 +18,11 @@ class PreviousAdapter()
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(currentValue: FinalValue) {
-            binding.nameInCard.text = "Будет название"
+            binding.nameInCard.text = currentValue.name
             binding.resultValue.text = currentValue.finalString
-            binding.dataCreateResult.text = "01.01.1010"
+            binding.dataCreateResult.text = currentValue.date?.let {
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(it)
+            }
             binding.deleteIndicator.setImageResource(R.drawable.ic_delete_black_24dp)
         }
     }

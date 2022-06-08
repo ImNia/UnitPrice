@@ -10,5 +10,6 @@ data class FinalValue(
     val result: Long?,
     val operation: String?,
     var finalString: String? = null,
-    var name: String?
+    var name: String?,
+    val date: Date?
 )

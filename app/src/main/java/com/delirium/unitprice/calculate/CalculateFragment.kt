@@ -2,7 +2,6 @@ package com.delirium.unitprice.calculate
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,12 +59,15 @@ class CalculateFragment : Fragment() {
         }
 
         bindingCalculate.buttonSave.setOnClickListener {
+            val nameForSave = if (bindingCalculate.nameInCalculate.text.toString() == "")
+                getString(R.string.untitled)
+            else bindingCalculate.nameInCalculate.text.toString()
             calculatePresenter.saveResult(
                 bindingCalculate.popupMenu.text.toString(),
                 bindingCalculate.resultValueInCalculate.text.toString(),
                 bindingCalculate.xValue.text.toString(),
                 bindingCalculate.yValue.text.toString(),
-                bindingCalculate.nameInCalculate.text.toString()
+                nameForSave
             )
             bindingCalculate.root.findNavController().navigate(
                 R.id.action_newCalculation_to_previousPrice

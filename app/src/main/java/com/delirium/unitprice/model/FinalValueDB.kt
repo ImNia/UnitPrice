@@ -10,5 +10,6 @@ open class FinalValueDB(
     var result: Long? = null,
     var operation: String? = null,
     var finalString: String? = null,
-    var name: String? = null
+    var name: String? = null,
+    var date: String? = null
 ) : RealmObject()

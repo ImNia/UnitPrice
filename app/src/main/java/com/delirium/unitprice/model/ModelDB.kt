@@ -4,6 +4,7 @@ import com.delirium.unitprice.AvailableOperations
 import com.delirium.unitprice.CallbackDB
 import com.delirium.unitprice.RealmConfiguration
 import io.realm.Realm
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ModelDB(private val callback: CallbackDB) {
@@ -48,7 +49,10 @@ class ModelDB(private val callback: CallbackDB) {
             result = finalValue.result,
             operation = finalValue.operation,
             finalString = finalValue.finalString,
-            name = finalValue.name
+            name = finalValue.name,
+            date = finalValue.date?.let {
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(it)
+            }
         )
     }
 
@@ -61,7 +65,10 @@ class ModelDB(private val callback: CallbackDB) {
             result = finalValueDB.result,
             operation = finalValueDB.operation,
             finalString = finalValueDB.finalString,
-            name = finalValueDB.name
+            name = finalValueDB.name,
+            date = finalValueDB.date?.let {
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(it)
+            }
         )
     }
 
