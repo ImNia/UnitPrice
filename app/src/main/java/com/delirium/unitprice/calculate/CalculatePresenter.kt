@@ -10,7 +10,7 @@ import java.util.*
 class CalculatePresenter : ViewModel(), CallbackDB {
     private var viewCalculate: CalculateFragment? = null
 
-    private var currentOperation: String? = null
+    private var currentOperation: AvailableOperations? = null
 
     private val modelDB = ModelDB(this)
 
@@ -23,21 +23,21 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         viewCalculate = null
     }
 
-    private fun prepareAndDrawView(operation: String? = null) {
+    private fun prepareAndDrawView(operation: AvailableOperations? = null) {
         val allOperation = modelDB.getOperations()
-        viewCalculate?.drawView(operation ?: allOperation.values.first())
+        viewCalculate?.drawView(operation ?: allOperation.keys.first())
     }
 
-    private fun drawResultValue(result: String, operation: String) {
+    private fun drawResultValue(result: String, operation: AvailableOperations) {
         viewCalculate?.drawResultCalculate(result, operation)
     }
 
-    fun switchOperation(operation: String) {
+    fun switchOperation(operation: AvailableOperations) {
         currentOperation = operation
         prepareAndDrawView(operation)
     }
 
-    fun callCalculate(operation: String, firstValue: String?, secondValue: String?, thirdValue: String?) {
+    fun callCalculate(operation: AvailableOperations, firstValue: String?, secondValue: String?, thirdValue: String?) {
         val terms = listOf(firstValue, secondValue, thirdValue).filterNotNull()
         if (firstValue.isNullOrEmpty() || secondValue.isNullOrEmpty()) {
             viewCalculate?.snackBarWithError()
@@ -47,19 +47,18 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         }
     }
 
-    private fun calculateValue(operation: String, terms: List<String>) : Double {
-        val operations = getMapOperations()
+    private fun calculateValue(operation: AvailableOperations, terms: List<String>) : Double {
         return when (operation) {
-             operations[AvailableOperations.PRICE_FOR_KG] -> {
+             AvailableOperations.PRICE_FOR_KG -> {
                 1000 / terms[1].toDouble() * terms[0].toDouble()
             }
-            operations[AvailableOperations.KNOWING_PRICE_FOR_KG] -> {
+            AvailableOperations.KNOWING_PRICE_FOR_KG -> {
                 terms[1].toDouble() / 1000 * terms[0].toDouble()
             }
-            operations[AvailableOperations.COUNT_FOR_1_KG] -> {
+            AvailableOperations.COUNT_FOR_1_KG -> {
                 1000 / terms[1].toDouble() * terms[0].toDouble()
             }
-            operations[AvailableOperations.PRICE_DEFINITE_WEIGHT] -> {
+            AvailableOperations.PRICE_DEFINITE_WEIGHT -> {
                 terms[0].toDouble() / terms[1].toDouble() * terms[2].toDouble()
             }
             else -> {
@@ -69,7 +68,6 @@ class CalculatePresenter : ViewModel(), CallbackDB {
     }
 
     /*** Request to DataBase ***/
-
     fun saveResult(
         operation: String,
         result: String,
@@ -91,9 +89,9 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         modelDB.insertFinalValue(finalValue)
     }
 
-    fun getOperations() : List<String> {
+    fun getOperations() : List<AvailableOperations> {
         val operations = modelDB.getOperations()
-        return operations.values.toList()
+        return operations.keys.toList()
     }
 
     private fun getMapOperations() : Map<AvailableOperations, String> {

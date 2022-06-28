@@ -10,6 +10,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import com.delirium.unitprice.AvailableOperations
 import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.CalculateFragmentBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -49,11 +50,12 @@ class CalculateFragment : Fragment() {
             val yValue = bindingCalculate.yValue.text.toString()
             val zValue = bindingCalculate.zValue.text.toString()
             calculatePresenter.callCalculate(
-                bindingCalculate.popupMenu.text.toString(),
+                converterOperationToPresenter(bindingCalculate.popupMenu.text.toString()),
                 xValue, yValue, zValue
             )
             activity?.currentFocus?.let {
-                val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                val imm =
+                    activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 imm?.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }
@@ -75,54 +77,62 @@ class CalculateFragment : Fragment() {
         }
     }
 
-    fun drawView(operation: String) {
-        bindingCalculate.popupMenu.text = operation
+    fun drawView(operation: AvailableOperations) {
+        bindingCalculate.popupMenu.text = converterOperationToView(operation)
         when (operation) {
-            "Price for kg" -> {
+            AvailableOperations.PRICE_FOR_KG -> {
                 bindingCalculate.firstValueText.text = getString(R.string.firstValuePriceForKg)
                 bindingCalculate.secondValueText.text = getString(R.string.secondValuePriceForKg)
                 bindingCalculate.thirdValueText.visibility = View.INVISIBLE
                 bindingCalculate.zValue.visibility = View.INVISIBLE
             }
-            "Knowing price for kg" -> {
-                bindingCalculate.firstValueText.text = getString(R.string.firstValueKnowingPriceForKg)
-                bindingCalculate.secondValueText.text = getString(R.string.secondValueKnowingPriceForKg)
+            AvailableOperations.KNOWING_PRICE_FOR_KG -> {
+                bindingCalculate.firstValueText.text =
+                    getString(R.string.firstValueKnowingPriceForKg)
+                bindingCalculate.secondValueText.text =
+                    getString(R.string.secondValueKnowingPriceForKg)
                 bindingCalculate.thirdValueText.visibility = View.INVISIBLE
                 bindingCalculate.zValue.visibility = View.INVISIBLE
             }
-            "Count for 1kg" -> {
+            AvailableOperations.COUNT_FOR_1_KG -> {
                 bindingCalculate.firstValueText.text = getString(R.string.firstValueCountForKg)
                 bindingCalculate.secondValueText.text = getString(R.string.secondValueCountForKg)
                 bindingCalculate.thirdValueText.visibility = View.INVISIBLE
                 bindingCalculate.zValue.visibility = View.INVISIBLE
             }
-            "Price definite weight" -> {
-                bindingCalculate.firstValueText.text = getString(R.string.firstValuePriceDefiniteWeight)
-                bindingCalculate.secondValueText.text = getString(R.string.thirdValuePriceDefiniteWeight)
+            AvailableOperations.PRICE_DEFINITE_WEIGHT -> {
+                bindingCalculate.firstValueText.text =
+                    getString(R.string.firstValuePriceDefiniteWeight)
+                bindingCalculate.secondValueText.text =
+                    getString(R.string.thirdValuePriceDefiniteWeight)
                 bindingCalculate.thirdValueText.visibility = View.VISIBLE
                 bindingCalculate.zValue.visibility = View.VISIBLE
-                bindingCalculate.thirdValueText.text = getString(R.string.secondValuePriceDefiniteWeight)
+                bindingCalculate.thirdValueText.text =
+                    getString(R.string.secondValuePriceDefiniteWeight)
             }
         }
     }
 
-    fun drawResultCalculate(result: String, operation: String) {
+    fun drawResultCalculate(result: String, operation: AvailableOperations) {
         val resultString = when (operation) {
-            "Price for kg" -> {
+            AvailableOperations.PRICE_FOR_KG -> {
                 getString(R.string.finalPriceForKg, result)
             }
-            "Knowing price for kg" -> {
-                getString(R.string.finalKnowingPriceForKg, result,
+            AvailableOperations.KNOWING_PRICE_FOR_KG -> {
+                getString(
+                    R.string.finalKnowingPriceForKg, result,
                     bindingCalculate.xValue.text.toString()
                 )
             }
-            "Count for 1kg" -> {
-                getString(R.string.finalCountForKg, result,
+            AvailableOperations.COUNT_FOR_1_KG -> {
+                getString(
+                    R.string.finalCountForKg, result,
                     bindingCalculate.xValue.text.toString()
                 )
             }
-            "Price definite weight" -> {
-                getString(R.string.finalPriceDefiniteWeight,
+            AvailableOperations.PRICE_DEFINITE_WEIGHT -> {
+                getString(
+                    R.string.finalPriceDefiniteWeight,
                     bindingCalculate.xValue.text.toString(),
                     bindingCalculate.yValue.text.toString(),
                     bindingCalculate.zValue.text.toString(),
@@ -142,17 +152,60 @@ class CalculateFragment : Fragment() {
         val operations = calculatePresenter.getOperations()
         val popMenu = PopupMenu(activity, viewForMenu)
         for (item in operations) {
-            popMenu.menu.add(item)
+            popMenu.menu.add(converterOperationToView(item))
         }
         val menuInflater = popMenu.menuInflater
         menuInflater.inflate(R.menu.pop_menu_source, popMenu.menu)
         popMenu.show()
 
         popMenu.setOnMenuItemClickListener { menuItem ->
-            calculatePresenter.switchOperation(menuItem.title.toString())
+            calculatePresenter.switchOperation(
+                converterOperationToPresenter(menuItem.title.toString())
+            )
             true
         }
     }
+
+    private fun converterOperationToView(operation: AvailableOperations): String {
+        return when (operation) {
+            AvailableOperations.PRICE_FOR_KG -> {
+                getString(R.string.priceForKg)
+            }
+            AvailableOperations.COUNT_FOR_1_KG -> {
+                getString(R.string.countForKg)
+            }
+            AvailableOperations.KNOWING_PRICE_FOR_KG -> {
+                getString(R.string.knowingPriceForKg)
+            }
+            AvailableOperations.PRICE_DEFINITE_WEIGHT -> {
+                getString(R.string.priceDefiniteWeight)
+            }
+            else -> {
+                "Problem"
+            }
+        }
+    }
+
+    private fun converterOperationToPresenter(operation: String): AvailableOperations {
+        return when (operation) {
+            getString(R.string.priceForKg) -> {
+                AvailableOperations.PRICE_FOR_KG
+            }
+            getString(R.string.knowingPriceForKg) -> {
+                AvailableOperations.KNOWING_PRICE_FOR_KG
+            }
+            getString(R.string.countForKg) -> {
+                AvailableOperations.COUNT_FOR_1_KG
+            }
+            getString(R.string.priceDefiniteWeight) -> {
+                AvailableOperations.PRICE_DEFINITE_WEIGHT
+            }
+            else -> {
+                AvailableOperations.PRICE_FOR_KG
+            }
+        }
+    }
+
 
     /**** SnackBar ****/
     fun snackBarWithError() {
