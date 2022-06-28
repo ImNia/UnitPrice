@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="priceForKg">Цена за кг</string>
+    <string name="knowingPriceForKg">Стоимость продукта, зная цену за 1 кг</string>
+    <string name="countForKg">Сколько можно купить, зная цену за 1 кг</string>
+    <string name="priceDefiniteWeight">Сколько будет стоить определенный вес</string>
+
     <string name="firstValuePriceForKg">Стоимость товара (руб)</string>
     <string name="secondValuePriceForKg">При весе (гр)</string>
     <string name="desiredPriceForKg">Стоимость одного кг: </string>

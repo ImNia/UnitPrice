@@ -14,8 +14,10 @@ import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.PreviousResultsFragmentBinding
 import com.delirium.unitprice.model.FinalValue
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
-class PreviousFragment : Fragment(), ClickResultItem{
+class PreviousFragment : Fragment(), ClickResultItem {
     private val previousPresenter: PreviousPresenter by activityViewModels()
     private lateinit var previousAdapter: PreviousAdapter
     private var recyclerView: RecyclerView? = null
@@ -25,6 +27,8 @@ class PreviousFragment : Fragment(), ClickResultItem{
     private lateinit var touchHelper: ItemTouchHelper
 
     lateinit var bindingDisplay: PreviousResultsFragmentBinding
+
+    private var snackBar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +57,6 @@ class PreviousFragment : Fragment(), ClickResultItem{
 
         val fab = activity?.findViewById<FloatingActionButton>(R.id.buttonAppBar)
         fab?.show()
-
     }
 
 
@@ -70,8 +73,33 @@ class PreviousFragment : Fragment(), ClickResultItem{
         return fullData.toList()
     }
 
-    override fun clickOnResult() {
+    override fun clickOnResult(idCard: String, isDelete: Boolean) {
         Log.i("PREVIOUS", "On ClickOnResult method")
-        //TODO("Not yet implemented")
+        previousPresenter.clickOnDelete(idCard)
+    }
+
+    override fun deleteCard(finalValue: FinalValue) {
+        previousPresenter.swipeOnDelete(finalValue)
+    }
+
+    override fun changePlaceCards(newList: List<FinalValue>) {
+        previousPresenter.changeHierarchy(newList)
+    }
+
+    /**** SnackBar ****/
+    fun snackBarWithError() {
+        val textError = getString(R.string.not_deleted)
+        snackBar = Snackbar
+            .make(bindingDisplay.linearLayout2, textError, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.ok_error) {
+                hideSnackBar()
+            }
+        snackBar?.show()
+    }
+
+    fun hideSnackBar() {
+        snackBar?.let {
+            if (it.isShown) it.dismiss()
+        }
     }
 }

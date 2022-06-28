@@ -2,6 +2,7 @@ package com.delirium.unitprice.previous
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.delirium.unitprice.R
@@ -17,7 +18,7 @@ class PreviousAdapter(
     var dataSet: MutableList<FinalValue> = mutableListOf()
 
     class ViewHolder(var binding: ResultItemBinding)
-        : RecyclerView.ViewHolder(binding.root){
+        : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         private lateinit var clickEvent: ClickResultItem
         fun bind(currentValue: FinalValue, clickListener: ClickResultItem) {
@@ -28,17 +29,22 @@ class PreviousAdapter(
             }
             binding.deleteIndicator.setImageResource(R.drawable.ic_delete_black_24dp)
 
+            binding.deleteIndicator.isClickable = true
+            binding.deleteIndicator.setOnClickListener(this)
 //            binding.itemResult.isClickable = true
 //            binding.itemResult.setOnLongClickListener(this)
+
+            binding.idCards.text = currentValue.id.toString()
+            binding.idCards.visibility = View.INVISIBLE
             clickEvent = clickListener
         }
 
-/*        override fun onLongClick(p0: View?): Boolean {
-            Log.i("HOLD", "onLongClick")
-//            clickEvent.clickOnResult()
-            return true
-        }*/
-
+        override fun onClick(p0: View?) {
+            clickEvent.clickOnResult(
+                binding.idCards.text.toString(),
+                binding.deleteIndicator.id == p0?.id
+            )
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -57,8 +63,9 @@ class PreviousAdapter(
     }
 
     override fun onItemDismiss(position: Int) {
+        val card = dataSet.get(position)
         dataSet.removeAt(position)
-        notifyItemRemoved(position)
+        clickListener.deleteCard(card)
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
@@ -72,9 +79,13 @@ class PreviousAdapter(
             }
         }
         notifyItemMoved(fromPosition, toPosition)
+        clickListener.changePlaceCards(dataSet)
     }
 }
 
 interface ClickResultItem {
-    fun clickOnResult()
+    //TODO how to do better
+    fun clickOnResult(idCard: String, isDelete: Boolean)
+    fun changePlaceCards(newList: List<FinalValue>)
+    fun deleteCard(finalValue: FinalValue)
 }

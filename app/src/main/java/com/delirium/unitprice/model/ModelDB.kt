@@ -24,12 +24,27 @@ class ModelDB(private val callback: CallbackDB) {
         realmDB.commitTransaction()
     }
 
-    fun deleteFinalValue(finalValue: FinalValue) {
+    fun deleteFinalValue(idCards: UUID) {
+        val finalValue = getFinalValue(idCards)
+
+        finalValue?.let {
+            val finalValueDB = converterToDBObject(it)
+            realmDB.beginTransaction()
+            val removeObject = realmDB.where(FinalValueDB::class.java)
+                .equalTo("id", finalValueDB.id)
+                .findFirst()
+            removeObject?.deleteFromRealm()
+            realmDB.commitTransaction()
+        } ?: callback.failed()
+    }
+
+    fun changeHierarchy(newList: List<FinalValue>) {
+        val finalValueDB = newList.map { converterToDBObject(it) }
         realmDB.beginTransaction()
-        val removeObject = realmDB.where(FinalValueDB::class.java)
-            .equalTo("id", finalValue.id)
-            .findFirst()
-        removeObject?.deleteFromRealm()
+        realmDB.deleteAll()
+        finalValueDB.forEach {
+            realmDB.copyToRealm(it)
+        }
         realmDB.commitTransaction()
     }
 
@@ -38,6 +53,18 @@ class ModelDB(private val callback: CallbackDB) {
             converterToObject(it)
         }
         callback.successfulGetAll(allValue)
+    }
+
+    private fun getFinalValue(id: UUID) : FinalValue? {
+        val allValue = realmDB.where(FinalValueDB::class.java).findAll().map {
+            converterToObject(it)
+        }
+        for (item in allValue) {
+            if (item.id == id) {
+                return item
+            }
+        }
+        return null
     }
 
     private fun converterToDBObject(finalValue: FinalValue) : FinalValueDB {

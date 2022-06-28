@@ -7,4 +7,7 @@
     <string name="more">Большк</string>
     <string name="hintNameEdit">Введите название</string>
     <string name="untitled">Без названия</string>
+
+
+    <string name="not_deleted">Удаление не удалось</string>
 </resources>
