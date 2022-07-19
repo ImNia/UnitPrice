@@ -4,10 +4,14 @@
     <string name="ok_error">ОК</string>
     <string name="save">Сохранить</string>
 
-    <string name="more">Большк</string>
+    <string name="more">Инфо</string>
+    <string name="update">Обновить</string>
+    <string name="added">Добавить</string>
     <string name="hintNameEdit">Введите название</string>
     <string name="untitled">Без названия</string>
 
 
     <string name="not_deleted">Удаление не удалось</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -10,6 +10,7 @@ import com.delirium.unitprice.databinding.ResultItemBinding
 import com.delirium.unitprice.model.FinalValue
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.log
 
 class PreviousAdapter(
     private val clickListener: ClickResultItem
@@ -31,8 +32,9 @@ class PreviousAdapter(
 
             binding.deleteIndicator.isClickable = true
             binding.deleteIndicator.setOnClickListener(this)
-//            binding.itemResult.isClickable = true
-//            binding.itemResult.setOnLongClickListener(this)
+
+            binding.itemResult.isClickable = true
+            binding.itemResult.setOnClickListener(this)
 
             binding.idCards.text = currentValue.id.toString()
             binding.idCards.visibility = View.INVISIBLE
@@ -40,10 +42,14 @@ class PreviousAdapter(
         }
 
         override fun onClick(p0: View?) {
-            clickEvent.clickOnResult(
-                binding.idCards.text.toString(),
-                binding.deleteIndicator.id == p0?.id
-            )
+            when(p0?.id) {
+                binding.deleteIndicator.id -> {
+                    clickEvent.clickOnResultDelete(binding.idCards.text.toString())
+                }
+                binding.itemResult.id -> {
+                    clickEvent.clickOnResultDescription(binding.idCards.text.toString())
+                }
+            }
         }
     }
 
@@ -85,7 +91,8 @@ class PreviousAdapter(
 
 interface ClickResultItem {
     //TODO how to do better
-    fun clickOnResult(idCard: String, isDelete: Boolean)
+    fun clickOnResultDelete(idCard: String)
+    fun clickOnResultDescription(idCard: String)
     fun changePlaceCards(newList: List<FinalValue>)
     fun deleteCard(finalValue: FinalValue)
 }

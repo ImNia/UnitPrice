@@ -11,6 +11,12 @@
         android:name="com.delirium.unitprice.previous.PreviousFragment"
         android:label="Titile"
         tools:layout="@layout/previous_results_fragment" >
+        <action
+            android:id="@+id/action_previousPrice_to_newCalculation"
+            app:destination="@id/newCalculation" />
+        <action
+            android:id="@+id/action_previousPrice_to_description"
+            app:destination="@id/description" />
     </fragment>
     <fragment
         android:id="@+id/newCalculation"
@@ -19,5 +25,15 @@
         <action
             android:id="@+id/action_newCalculation_to_previousPrice"
             app:destination="@id/previousPrice" />
+    </fragment>
+    <fragment
+        android:id="@+id/description"
+        android:name="com.delirium.unitprice.description.DescriptionFragment"
+        android:label="fragment_description"
+        tools:layout="@layout/fragment_description">
+        <argument
+            android:name="itemDesc"
+            app:argType="com.delirium.unitprice.model.FinalValue"
+        />
     </fragment>
 </navigation>

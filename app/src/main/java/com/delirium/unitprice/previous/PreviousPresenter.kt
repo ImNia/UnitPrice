@@ -3,6 +3,7 @@ package com.delirium.unitprice.previous
 import androidx.lifecycle.ViewModel
 import com.delirium.unitprice.CallbackDB
 import com.delirium.unitprice.model.FinalValue
+import com.delirium.unitprice.model.FinalValueDB
 import com.delirium.unitprice.model.ModelDB
 import java.util.*
 
@@ -30,8 +31,25 @@ class PreviousPresenter: ViewModel(), CallbackDB {
         checkDataInDB()
     }
 
+    fun clickOnDescription(idCard: String) {
+        var findingValue: FinalValue? = null
+        for (currentItem in currentData) {
+            if (currentItem.id == UUID.fromString(idCard)) {
+                findingValue = currentItem
+            }
+        }
+
+        findingValue?.let {
+            viewPrevious?.goToDescription(it)
+        }
+    }
+
     fun swipeOnDelete(finalValue: FinalValue) {
         finalValue.id?.let { modelDB.deleteFinalValue(it) }
+        checkDataInDB()
+    }
+
+    fun updateData() {
         checkDataInDB()
     }
 

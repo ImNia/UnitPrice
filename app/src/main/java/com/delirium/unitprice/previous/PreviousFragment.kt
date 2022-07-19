@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.PreviousResultsFragmentBinding
 import com.delirium.unitprice.model.FinalValue
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
@@ -40,6 +42,30 @@ class PreviousFragment : Fragment(), ClickResultItem {
         linearManager = LinearLayoutManager(activity)
         recyclerView = bindingDisplay.recyclerPreviousResult
         recyclerView?.layoutManager = linearManager
+
+        setHasOptionsMenu(true)
+        val toolbar: MaterialToolbar? = activity?.findViewById(R.id.toolBar)
+        toolbar?.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menuMore -> {
+                    Log.i("PREVIOUS", "Click on MORE")
+                    true
+                }
+                R.id.menuAdded -> {
+                    bindingDisplay.root.findNavController().navigate(
+                        R.id.action_previousPrice_to_newCalculation
+                    )
+                    true
+                }
+                R.id.menuUpdate -> {
+                    previousPresenter.updateData()
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
 
         return bindingDisplay.root
     }
@@ -73,9 +99,19 @@ class PreviousFragment : Fragment(), ClickResultItem {
         return fullData.toList()
     }
 
-    override fun clickOnResult(idCard: String, isDelete: Boolean) {
+    fun goToDescription(item: FinalValue) {
+        bindingDisplay.root.findNavController().navigate(
+            PreviousFragmentDirections.actionPreviousPriceToDescription(item)
+        )
+    }
+
+    override fun clickOnResultDelete(idCard: String) {
         Log.i("PREVIOUS", "On ClickOnResult method")
         previousPresenter.clickOnDelete(idCard)
+    }
+
+    override fun clickOnResultDescription(idCard: String) {
+        previousPresenter.clickOnDescription(idCard)
     }
 
     override fun deleteCard(finalValue: FinalValue) {

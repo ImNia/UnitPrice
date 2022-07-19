@@ -5,7 +5,17 @@
     >
 
     <item
-        android:id="@+id/more"
+        android:id="@+id/menuUpdate"
+        android:title="@string/update"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/menuAdded"
+        android:title="@string/added"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/menuMore"
         android:title="@string/more"
         app:showAsAction="never"
         />

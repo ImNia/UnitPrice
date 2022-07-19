@@ -27,6 +27,7 @@
     <string name="z">0</string>
 
     <string name="buttonCalculate">Вычислить</string>
+    <string name="buttonCalculateDesc">Пересчитать</string>
 
     <string name="finalPriceForKg">Стоимость одного кг %1$s рублей</string>
     <string name="finalKnowingPriceForKg">Стоимость продукта %1$s рублей за %2$s грамма </string>
