@@ -2,6 +2,7 @@ package com.delirium.unitprice.calculate
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.navigation.findNavController
 import com.delirium.unitprice.AvailableOperations
 import com.delirium.unitprice.R
 import com.delirium.unitprice.databinding.CalculateFragmentBinding
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -34,6 +36,24 @@ class CalculateFragment : Fragment() {
 
         bindingCalculate.nameInCalculate.visibility = View.INVISIBLE
         bindingCalculate.buttonSave.visibility = View.INVISIBLE
+
+        setHasOptionsMenu(true)
+        val toolbar: MaterialToolbar? = activity?.findViewById(R.id.toolBar)
+        toolbar?.menu?.findItem(R.id.menuAdded)?.isVisible = false
+        toolbar?.menu?.findItem(R.id.menuUpdate)?.isVisible = false
+
+        toolbar?.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menuMore -> {
+                    Log.i("PREVIOUS", "Click on MORE")
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
         return bindingCalculate.root
     }
 
@@ -69,6 +89,7 @@ class CalculateFragment : Fragment() {
                 bindingCalculate.resultValueInCalculate.text.toString(),
                 bindingCalculate.xValue.text.toString(),
                 bindingCalculate.yValue.text.toString(),
+                bindingCalculate.zValue.text.toString(),
                 nameForSave
             )
             bindingCalculate.root.findNavController().navigate(
@@ -139,9 +160,6 @@ class CalculateFragment : Fragment() {
                     result
                 )
             }
-            else -> {
-                "Problem"
-            }
         }
         bindingCalculate.resultValueInCalculate.text = resultString
         bindingCalculate.nameInCalculate.visibility = View.VISIBLE
@@ -180,9 +198,6 @@ class CalculateFragment : Fragment() {
             AvailableOperations.PRICE_DEFINITE_WEIGHT -> {
                 getString(R.string.priceDefiniteWeight)
             }
-            else -> {
-                "Problem"
-            }
         }
     }
 
@@ -218,7 +233,7 @@ class CalculateFragment : Fragment() {
         snackBar?.show()
     }
 
-    fun hideSnackBar() {
+    private fun hideSnackBar() {
         snackBar?.let {
             if (it.isShown) it.dismiss()
         }

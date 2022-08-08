@@ -7,10 +7,11 @@ import java.util.*
 @Parcelize
 data class FinalValue(
     val id: UUID? = UUID.randomUUID(),
-    val xValue: Long?,
-    val yValue: Long?,
+    var xValue: Long?,
+    var yValue: Long?,
+    var zValue: Long?,
     val additionValue: Long? = null,
-    val result: Long?,
+    var result: Long?,
     val operation: String?,
     var finalString: String? = null,
     var name: String?,

@@ -48,6 +48,22 @@ class ModelDB(private val callback: CallbackDB) {
         realmDB.commitTransaction()
     }
 
+    fun changeCalculateValue(finalValue: FinalValue) {
+        val changeFinalValue = converterToDBObject(finalValue)
+        realmDB.beginTransaction()
+        val changeObject = realmDB.where(FinalValueDB::class.java)
+            .equalTo("id", changeFinalValue.id)
+            .findFirst()
+        changeObject?.xValue = finalValue.xValue
+        changeObject?.yValue = finalValue.yValue
+        if(finalValue.zValue != null) {
+            changeObject?.zValue = finalValue.zValue
+        }
+        changeObject?.result = finalValue.result
+        changeObject?.finalString = finalValue.finalString
+        realmDB.commitTransaction()
+    }
+
     fun getAllFinalValue() {
         val allValue = realmDB.where(FinalValueDB::class.java).findAll().map {
             converterToObject(it)
@@ -55,7 +71,7 @@ class ModelDB(private val callback: CallbackDB) {
         callback.successfulGetAll(allValue)
     }
 
-    private fun getFinalValue(id: UUID) : FinalValue? {
+    fun getFinalValue(id: UUID) : FinalValue? {
         val allValue = realmDB.where(FinalValueDB::class.java).findAll().map {
             converterToObject(it)
         }
@@ -72,6 +88,7 @@ class ModelDB(private val callback: CallbackDB) {
             id = finalValue.id.toString(),
             xValue = finalValue.xValue,
             yValue = finalValue.yValue,
+            zValue = finalValue.zValue,
             additionValue = finalValue.additionValue,
             result = finalValue.result,
             operation = finalValue.operation,
@@ -88,6 +105,7 @@ class ModelDB(private val callback: CallbackDB) {
             id = UUID.fromString(finalValueDB.id),
             xValue = finalValueDB.xValue,
             yValue = finalValueDB.yValue,
+            zValue = finalValueDB.zValue,
             additionValue = finalValueDB.additionValue,
             result = finalValueDB.result,
             operation = finalValueDB.operation,

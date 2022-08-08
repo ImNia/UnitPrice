@@ -12,10 +12,11 @@ class CalculatePresenter : ViewModel(), CallbackDB {
 
     private var currentOperation: AvailableOperations? = null
 
-    private val modelDB = ModelDB(this)
+    private lateinit var modelDB: ModelDB
 
     fun attachView(viewCalculate: CalculateFragment) {
         this.viewCalculate = viewCalculate
+        modelDB = ModelDB(this)
         prepareAndDrawView()
     }
 
@@ -47,9 +48,9 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         }
     }
 
-    private fun calculateValue(operation: AvailableOperations, terms: List<String>) : Double {
+    fun calculateValue(operation: AvailableOperations, terms: List<String>) : Double {
         return when (operation) {
-             AvailableOperations.PRICE_FOR_KG -> {
+            AvailableOperations.PRICE_FOR_KG -> {
                 1000 / terms[1].toDouble() * terms[0].toDouble()
             }
             AvailableOperations.KNOWING_PRICE_FOR_KG -> {
@@ -61,9 +62,6 @@ class CalculatePresenter : ViewModel(), CallbackDB {
             AvailableOperations.PRICE_DEFINITE_WEIGHT -> {
                 terms[0].toDouble() / terms[1].toDouble() * terms[2].toDouble()
             }
-            else -> {
-                -1.0
-            }
         }
     }
 
@@ -73,12 +71,14 @@ class CalculatePresenter : ViewModel(), CallbackDB {
         result: String,
         firstValue: String,
         secondValue: String,
+        thirdValue: String?,
         name: String = "Untitled"
     ) {
         val finalValue = FinalValue(
             UUID.randomUUID(),
             firstValue.toLong(),
             secondValue.toLong(),
+            if (thirdValue == "") null else thirdValue?.toLong(),
             null,
             null,
             operation,

@@ -6,6 +6,7 @@ open class FinalValueDB(
     var id: String? = null,
     var xValue: Long? = null,
     var yValue: Long? = null,
+    var zValue: Long? = null,
     var additionValue: Long? = null,
     var result: Long? = null,
     var operation: String? = null,

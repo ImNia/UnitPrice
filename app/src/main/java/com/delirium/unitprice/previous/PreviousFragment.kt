@@ -45,6 +45,9 @@ class PreviousFragment : Fragment(), ClickResultItem {
 
         setHasOptionsMenu(true)
         val toolbar: MaterialToolbar? = activity?.findViewById(R.id.toolBar)
+
+        toolbar?.menu?.findItem(R.id.menuAdded)?.isVisible = true
+        toolbar?.menu?.findItem(R.id.menuUpdate)?.isVisible = true
         toolbar?.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menuMore -> {
@@ -85,6 +88,10 @@ class PreviousFragment : Fragment(), ClickResultItem {
         fab?.show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        previousPresenter.updateData()
+    }
 
     fun drawCurrentData(dataForDrawing: List<FinalValue>) {
         previousAdapter.dataSet = addFinalValue(dataForDrawing).toMutableList()
@@ -101,7 +108,8 @@ class PreviousFragment : Fragment(), ClickResultItem {
 
     fun goToDescription(item: FinalValue) {
         bindingDisplay.root.findNavController().navigate(
-            PreviousFragmentDirections.actionPreviousPriceToDescription(item)
+            PreviousFragmentDirections.actionPreviousPriceToDescription(
+                item, item.name ?: getString(R.string.untitled))
         )
     }
 
@@ -133,7 +141,7 @@ class PreviousFragment : Fragment(), ClickResultItem {
         snackBar?.show()
     }
 
-    fun hideSnackBar() {
+    private fun hideSnackBar() {
         snackBar?.let {
             if (it.isShown) it.dismiss()
         }

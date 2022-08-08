@@ -8,7 +8,7 @@ import com.delirium.unitprice.model.ModelDB
 import java.util.*
 
 class PreviousPresenter: ViewModel(), CallbackDB {
-    private val modelDB = ModelDB(this)
+    private lateinit var modelDB: ModelDB
     private var viewPrevious: PreviousFragment? = null
 
     private var currentData = listOf<FinalValue>()
@@ -17,6 +17,7 @@ class PreviousPresenter: ViewModel(), CallbackDB {
         this.viewPrevious = viewPrevious
         modelDB.getAllFinalValue()
 
+        modelDB = ModelDB(this)
         modelDB.realmDB.addChangeListener {
             modelDB.getAllFinalValue()
         }
