@@ -17,6 +17,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +30,7 @@
         android:layout_width="250dp"
         android:layout_height="80dp"
         android:gravity="center"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/secondValueText"
         app:layout_constraintEnd_toStartOf="@+id/xValue"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,17 +43,20 @@
         android:layout_height="80dp"
         android:layout_marginEnd="28dp"
         android:ems="10"
-        android:inputType="number"
         android:hint="@string/x"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/firstValueText"
-        android:importantForAutofill="no" />
+        style="@style/MyEditTextTheme" />
 
     <TextView
         android:id="@+id/secondValueText"
         android:layout_width="250dp"
         android:layout_height="80dp"
         android:gravity="center"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/buttonCalculate"
         app:layout_constraintEnd_toStartOf="@+id/yValue"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,15 +71,18 @@
         android:ems="10"
         android:inputType="number"
         android:hint="@string/y"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/secondValueText"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        style="@style/MyEditTextTheme" />
 
     <TextView
         android:id="@+id/thirdValueText"
         android:layout_width="250dp"
         android:layout_height="80dp"
         android:gravity="center"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/buttonCalculate"
         app:layout_constraintEnd_toStartOf="@+id/yValue"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,9 +97,11 @@
         android:ems="10"
         android:inputType="number"
         android:hint="@string/y"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/thirdValueText"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        style="@style/MyEditTextTheme" />
 
     <Button
         android:id="@+id/buttonCalculate"
@@ -124,7 +134,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.7"
-            android:autofillHints="Untitled" />
+            android:autofillHints="Untitled"
+            style="@style/MyEditTextTheme" />
 
         <TextView
             android:id="@+id/resultValueInCalculate"
@@ -133,6 +144,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:gravity="center"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameInCalculate"
             tools:text="@string/finalPriceForKg" />

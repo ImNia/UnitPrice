@@ -15,9 +15,9 @@ class PreviousPresenter: ViewModel(), CallbackDB {
 
     fun initPresenter(viewPrevious: PreviousFragment) {
         this.viewPrevious = viewPrevious
+        modelDB = ModelDB(this)
         modelDB.getAllFinalValue()
 
-        modelDB = ModelDB(this)
         modelDB.realmDB.addChangeListener {
             modelDB.getAllFinalValue()
         }

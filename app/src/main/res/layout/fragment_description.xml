@@ -43,7 +43,8 @@
         android:hint="@string/x"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/firstValueTextDesc"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        style="@style/MyEditTextTheme" />
 
     <TextView
         android:id="@+id/secondValueTextDesc"
@@ -66,7 +67,8 @@
         android:hint="@string/y"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/secondValueTextDesc"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        style="@style/MyEditTextTheme" />
 
     <TextView
         android:id="@+id/thirdValueTextDesc"
@@ -89,7 +91,8 @@
         android:hint="@string/y"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/thirdValueTextDesc"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        style="@style/MyEditTextTheme" />
 
     <TextView
         android:id="@+id/resultValueDesc"
